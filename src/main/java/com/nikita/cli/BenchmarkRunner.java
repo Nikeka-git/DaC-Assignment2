@@ -6,6 +6,7 @@ import com.nikita.metrics.PerformanceTracker;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Random;
 
 public class BenchmarkRunner {
@@ -15,7 +16,7 @@ public class BenchmarkRunner {
         String outFile = "results/selectionsort.csv";
 
         try (FileWriter csv = new FileWriter(outFile)) {
-            csv.write("type,n,time_ns,comparisons,swaps\n");
+            csv.write("type,n,time_ms,comparisons,swaps\n");
 
             for (String type : types) {
                 for (int n : sizes) {
@@ -27,12 +28,12 @@ public class BenchmarkRunner {
                     sort.sort(arr);
                     tracker.stop();
 
-                    csv.write(String.format("%s,%d,%d,%d,%d\n",
+                    csv.write(String.format(Locale.US, "%s,%d,%.3f,%d,%d\n",
                             type, n, tracker.getTime(), tracker.getComparisons(), tracker.getSwaps()));
                     csv.flush();
 
                     System.out.printf("%s n=%d time=%.3fms comps=%d swaps=%d\n",
-                            type, n, tracker.getTime() / 1e6,
+                            type, n, tracker.getTime(),
                             tracker.getComparisons(), tracker.getSwaps());
                 }
             }

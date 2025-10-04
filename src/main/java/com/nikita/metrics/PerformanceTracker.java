@@ -14,8 +14,8 @@ public class PerformanceTracker {
         endTime = System.nanoTime();
     }
 
-    public long getTime() {
-        return endTime - startTime;
+    public double getTime() {
+        return (endTime - startTime) / 1_000_000.0;
     }
 
     public void incrementComparisons() {
